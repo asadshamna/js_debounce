@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS | Debounce Function</title>
+    <style>
+      html {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      body {
+        background-image: linear-gradient(
+          to right,
+          rgba(91, 24, 101, 1),
+          rgba(176, 48, 86, 1)
+        );
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .center {
+        width: 100%;
+        margin: auto;
+      }
+      .debounce {
+        outline: none;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(200px);
+        filter: blur();
+        font-size: 32px;
+        width: 280px;
+        padding: 32px 64px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s all ease-in-out;
+      }
+
+      .debounce:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+        background-color: rgba(255, 255, 255, 0.4);
+      }
+      .debounce:active {
+        transform: scale(0.95);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <button class="debounce">Click me!</button>
+    </div>
+    <script>
+      const button = document.querySelector(".debounce");
+      let clickCount = 0;
+
+      function handleClick() {
+        clickCount++;
+        if (clickCount > 1) {
+          console.log(
+            `Button clicked ${clickCount} times within the time interval.`
+          );
+          console.log("Please wait to send another request...");
+          return;
+        }
+
+        console.log("Button clicked!");
+        console.log("Please wait to send another request...");
+        setTimeout(() => {
+          console.log("Now you can click the button.");
+          clickCount = 0;
+        }, 5000);
+      }
+
+      function debounce(func, delay) {
+        let timeoutId;
+        return function () {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(() => {
+            func.apply(this, arguments);
+          }, delay);
+        };
+      }
+
+      const debouncedClickHandler = debounce(handleClick, 1000);
+      button.addEventListener("click", debouncedClickHandler);
+    </script>
+  </body>
+</html>
